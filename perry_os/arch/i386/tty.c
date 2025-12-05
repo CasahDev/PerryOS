@@ -4,11 +4,11 @@
 #include <string.h>
 
 #include <kernel/tty.h>
-
-#include "vga.h"
+#include <kernel/vga.h>
+#include <stdint.h>
 
 static const size_t VGA_WIDTH = 80;
-static const size_t VGA_HEIGHT = 25;
+static const size_t VGA_HEIGHT = 25; 
 static uint16_t* const VGA_MEMORY = (uint16_t*) 0xB8000;
 
 static size_t terminal_row;
@@ -55,4 +55,8 @@ void terminal_write(const char* data, size_t size) {
 
 void terminal_writestring(const char* data) {
 	terminal_write(data, strlen(data));
+}
+
+void terminal_set_color(uint8_t color) {
+    terminal_color = color;
 }
