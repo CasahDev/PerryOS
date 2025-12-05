@@ -16,6 +16,22 @@ static size_t terminal_column;
 static uint8_t terminal_color;
 static uint16_t* terminal_buffer;
 
+void terminal_moveupper() {
+	for (int i = VGA_WIDTH; i < VGA_WIDTH * VGA_HEIGHT; ++i) {
+		uint16_t entry = terminal_buffer[i];
+		uint8_t color = entry >> 8;
+		unsigned char uc = entry;
+		terminal_buffer[i - VGA_WIDTH] = vga_entry(uc, color);
+	}
+}
+
+void terminal_dropcursor()
+{
+	terminal_moveupper();
+	terminal_column = 0;
+	terminal_row = VGA_HEIGHT - 1;
+}
+
 void terminal_initialize(void) {
 	terminal_row = 0;
 	terminal_column = 0;
@@ -39,12 +55,20 @@ void terminal_putentryat(unsigned char c, uint8_t color, size_t x, size_t y) {
 }
 
 void terminal_putchar(char c) {
-	unsigned char uc = c;
-	terminal_putentryat(uc, terminal_color, terminal_column, terminal_row);
-	if (++terminal_column == VGA_WIDTH) {
+	if (c == '\n') {
 		terminal_column = 0;
-		if (++terminal_row == VGA_HEIGHT)
-			terminal_row = 0;
+		if (++terminal_row == VGA_HEIGHT) {
+			terminal_dropcursor();
+		}
+	}
+	else {
+		terminal_putentryat(c, terminal_color, terminal_column, terminal_row);
+		if (++terminal_column == VGA_WIDTH) {
+			terminal_column = 0;
+			if (++terminal_row == VGA_HEIGHT) {
+				terminal_dropcursor();
+			}
+		}
 	}
 }
 
