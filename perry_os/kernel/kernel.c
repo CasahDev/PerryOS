@@ -4,22 +4,39 @@
 #include <string.h>
 #include <kernel/vga.h>
 
+void kernel_logo(void) {
+	terminal_writestring("					$xXX$X\n");
+	terminal_writestring("                 $xXXXXXX$x\n");
+	terminal_writestring("                &xxXXXXXXXXX&         $+\n");
+	terminal_writestring("               &xxXXXXXXXXXXXXX$ $$XXXX$&\n");
+	terminal_writestring("               xxXXXXXXXXXXXXXXXXXXXXX$$$\n");
+	terminal_writestring("              $XX$$$$$$$$$$&&&$XXXXXX$$$$$\n");
+	terminal_writestring("              &XX$$$$$$$$$$$$$$$$$$$&&&&$$\n");
+	terminal_writestring("           X&&&&&$$$$$$$$$$$$&&&&$&&&$&&$$$$$&&$\n");
+	terminal_writestring("   &&XxxXXXXXXXXXXXXXXXXXXXX$&$&&$$$$$$$$$$$$$$$$$$\n");
+	terminal_writestring("         $$$&&&$$$$xx+x+++x::::::::::;;;x+$$$$$$$$;\n");
+	terminal_writestring("           $...$$.x$$$:::&+&&;$$&.$X:+::;;&$$$$$$$\n");
+	terminal_writestring("           ;...;XXX$:&:::::....$$$$::&::;;$$$$;$\n");
+	terminal_writestring("            x&.....:$:;+::::$......X+:::;+$$\n");
+	terminal_writestring("              X:::::+:;;x:::::::::::::::;x$\n");
+	terminal_writestring("              ++++++x;;;;;x+::::::::::::;+&\n");
+	terminal_writestring("       x;::;;;;;;;;;;;;;;;;;;;;:++:::::;;+&\n");
+	terminal_writestring("      ::;;;;;;;;+;+;;;+;;+;;++;;;;;x:::;;+$\n");
+	terminal_writestring("          +xxxx$x++xx++;;;;;;;;;;;+;:::;;+$\n");
+	terminal_writestring("               $:::::::+xxxxxx&::::&:::;;+$\n");
+	terminal_writestring("               $:::::::::::$:&:::::::::;++$\n");
+	terminal_writestring("               &::::::::::$::&::::::.x:+&&$\n");
+	terminal_writestring("              $&:::::::::&:::;&::;+$xx:$::;.\n");
+	terminal_writestring("             &:&:::::::::X:::+x;::;;::::$::;$\n");
+	terminal_writestring("            $::&:::::::::$:++X+::::;&;::$;:;x$\n");
+	terminal_writestring("            $::&:::::::::::::x++::::::X$:::;x&\n");
+	terminal_writestring("           ;:::&:::::::::::::::++x$$++::::::x:\n"
+	);
+}
+
 void kernel_main(void) {
 	terminal_initialize();
 
-	for (int i = 0; i < 10000; i++) {
-		char str[32];
-		itostr(i, str);
-		terminal_writestring(str);
-		terminal_writestring("\n");
-	}
-
 	terminal_set_color(vga_entry_color(VGA_COLOR_CYAN, VGA_COLOR_BLACK));
-	terminal_writestring("           _.- ~~^^^'~- _ __ .,.- ~ ~ ~  ~  -. _\n");
-	terminal_writestring(" ________,'       ::.                       _,-  ~ -.\n");
-	terminal_writestring(" ((      ~_\\   -s-  ::                     ,'          ;,\n");
-	terminal_writestring(" \\\\       <.._ .;;;`                     ;           }  `',\n");
-	terminal_writestring("  ``======='    _ _- _ (   }             `,          ,'\\,  `,\n");
-	terminal_writestring("               ((/ _ _,i   ! _ ~ - -- - _ _'_-_,_,,,'    \\,  ;\n");
-	terminal_writestring("                  ((((____/            (,(,(, ____>        \\,'\n");
+	kernel_logo();
 }
