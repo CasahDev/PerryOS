@@ -5,6 +5,7 @@
 #include <kernel/vga.h>
 
 void kernel_logo(void) {
+	terminal_set_color(vga_entry_color(VGA_COLOR_BROWN, VGA_COLOR_BLACK));
 	terminal_writestring("					$xXX$X\n");
 	terminal_writestring("                 $xXXXXXX$x\n");
 	terminal_writestring("                &xxXXXXXXXXX&         $+\n");
@@ -14,6 +15,7 @@ void kernel_logo(void) {
 	terminal_writestring("              &XX$$$$$$$$$$$$$$$$$$$&&&&$$\n");
 	terminal_writestring("           X&&&&&$$$$$$$$$$$$&&&&$&&&$&&$$$$$&&$\n");
 	terminal_writestring("   &&XxxXXXXXXXXXXXXXXXXXXXX$&$&&$$$$$$$$$$$$$$$$$$\n");
+	terminal_set_color(vga_entry_color(VGA_COLOR_CYAN, VGA_COLOR_BLACK));
 	terminal_writestring("         $$$&&&$$$$xx+x+++x::::::::::;;;x+$$$$$$$$;\n");
 	terminal_writestring("           $...$$.x$$$:::&+&&;$$&.$X:+::;;&$$$$$$$\n");
 	terminal_writestring("           ;...;XXX$:&:::::....$$$$::&::;;$$$$;$\n");
@@ -37,6 +39,5 @@ void kernel_logo(void) {
 void kernel_main(void) {
 	terminal_initialize();
 
-	terminal_set_color(vga_entry_color(VGA_COLOR_CYAN, VGA_COLOR_BLACK));
 	kernel_logo();
 }
