@@ -1,6 +1,6 @@
 #include <string.h>
 
-void itostr(int N, char *str) {
+void inttostr(int N, char *str) {
     int i = 0;
     int sign = N;
 
