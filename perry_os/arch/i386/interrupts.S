@@ -1,15 +1,13 @@
-.extern isr_handler
-
 .global _isr_wrapper
+.extern isr_handler
 _isr_wrapper:
-# Push all the registers in the stack
-pusha 
+    # Push all the registers in the stack
+    pusha 
 
-// Call the isr_handler C function
-call isr_handler
+    pushl %esp # Add the parameters of the isr_handler function
+    call isr_handler # Call the isr_handler C function
 
-// Pop all the stack into registers
-popa
+    add $4, %esp # Add 4 to the stack top pointeur value
 
-// End the function
-iret
+    popa # Pop all the stack into registers
+    iret # End the function

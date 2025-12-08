@@ -15,12 +15,9 @@ static inline void idt_load(void* ptr) {
 }
 
 void idt_set_gate(uint8_t num, uint32_t base, uint16_t selector, uint8_t flags) {
-
     idt_table[num].selector = selector;
     idt_table[num].zero = 0;
     idt_table[num].type_attr = flags;
-    
-    // Il manque la gestion de l'adresse (base) !
     idt_table[num].offset_low = base & 0xFFFF
     idt_table[num].offset_high = (base >> 16) & 0xFFFF;
 }
