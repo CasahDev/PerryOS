@@ -19,4 +19,10 @@ struct idt_ptr_t
     uint32_t base;
 } __attribute__((packed));
 
+/**
+ * @param ptr Represents the table to load
+ */
+static inline void idt_load(void* ptr);
+
+
 #endif
