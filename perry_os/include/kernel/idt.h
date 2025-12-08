@@ -12,5 +12,11 @@ struct idt_entry_t {
    uint16_t offset_high;  // Offset bits 16..31
 } __attribute__((packed));
 
+// Represents the IDTR (IDT reference)
+struct idt_ptr_t
+{
+    uint16_t limit;
+    uint32_t base;
+} __attribute__((packed));
 
 #endif
