@@ -5,11 +5,10 @@
 #include <kernel/vga.h>
 #include <kernel/serial.h>
 #include <kernel/gdt.h>
+#include <kernel/idt.h>
 
 void kernel_logo(void) {
 	terminal_set_color(vga_entry_color(VGA_COLOR_BROWN, VGA_COLOR_BLACK));
-	terminal_writestring("					$xXX$X\n");
-	terminal_writestring("                 $xXXXXXX$x\n");
 	terminal_writestring("                &xxXXXXXXXXX&         $+\n");
 	terminal_writestring("               &xxXXXXXXXXXXXXX$ $$XXXX$&\n");
 	terminal_writestring("               xxXXXXXXXXXXXXXXXXXXXXX$$$\n");
@@ -42,6 +41,7 @@ void kernel_main(void) {
 	terminal_initialize();
 	init_serial();
 	init_gdt();
+	init_idt();
 
 	kernel_logo();
 }
