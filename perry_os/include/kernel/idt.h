@@ -19,10 +19,22 @@ struct idt_ptr_t
     uint32_t base;
 } __attribute__((packed));
 
+// Represents a register
+struct registers_t {
+    uint32_t edi;
+    uint32_t esi;
+    uint32_t ebp;
+    uint32_t esp;
+    uint32_t ebx;
+    uint32_t edx;
+    uint32_t ecx;
+    uint32_t eax;
+} __attribute__((packed));
+
 /**
  * @param ptr Represents the table to load
  */
-static inline void idt_load(void* ptr);
+void init_idt();
 
 /**
  * @param num Interuption number
@@ -32,5 +44,8 @@ static inline void idt_load(void* ptr);
  */
 void idt_set_gate(uint8_t num, uint32_t base, uint16_t selector, uint8_t flags);
 
+extern void _isr_wrapper(void);
+
+void isr_handler(struct registers_t *regs);
 
 #endif
