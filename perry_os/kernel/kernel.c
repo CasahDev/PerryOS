@@ -4,6 +4,7 @@
 #include <string.h>
 #include <kernel/vga.h>
 #include <kernel/serial.h>
+#include <kernel/gdt.h>
 
 void kernel_logo(void) {
 	terminal_set_color(vga_entry_color(VGA_COLOR_BROWN, VGA_COLOR_BLACK));
@@ -40,6 +41,7 @@ void kernel_logo(void) {
 void kernel_main(void) {
 	terminal_initialize();
 	init_serial();
+	init_gdt();
 
 	kernel_logo();
 }
