@@ -1,6 +1,7 @@
 #include <kernel/idt.h>
 #include <string.h>
-#include <kernel/tty.h>
+#include <kernel/syscalls.h>
+#include <kernel/serial.h>
 
 struct idt_entry_t idt_table[256];
 
@@ -9,13 +10,18 @@ struct idt_ptr_t idt_ptr = {
     (uint32_t) idt_table
 };
 
+syscall_t syscalls[NUMBER_OF_SYSCALLS];
+
 void init_idt() {
     asm volatile ("lidt %0" : : "m"(idt_ptr));
 
     idt_set_gate(0x20, (uint32_t) _isr_wrapper, 0x08, 0x8E);
+}
 
-    
-    asm volatile ("int $32");
+void init_syscall_table() {
+    syscalls[1] = sys_exit;
+    syscalls[2] = sys_open;
+    syscalls[3] = sys_close;
 }
 
 void idt_set_gate(uint8_t num, uint32_t base, uint16_t selector, uint8_t flags) {
@@ -27,19 +33,13 @@ void idt_set_gate(uint8_t num, uint32_t base, uint16_t selector, uint8_t flags) 
 }
 
 void isr_handler(struct registers_t *regs) {
-    char eax[16];
 
-    // Affichage de EAX
-    terminal_writestring("Interruption reçue !\n");
-    terminal_writestring("EAX = ");
-    inttostr(regs->eax, eax);
-    terminal_writestring(eax);
-    terminal_writestring("\n");
-
-    char ebx[16];
-    // Affichage de EBX
-    terminal_writestring("EBX = ");
-    inttostr(regs->ebx, ebx);
-    terminal_writestring(ebx);
-    terminal_writestring("\n");
+    if (sizeof(syscalls) / sizeof(syscall_t) > regs->eax && syscalls[regs->eax] != NULL) {
+        syscalls[regs->eax](regs);
+    } else {
+        // Optionnel : Afficher un message d'erreur de debug
+        serial_putstring("Erreur: Appel systeme inconnu !\n");
+    }
 }
+
+

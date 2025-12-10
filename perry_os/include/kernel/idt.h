@@ -3,6 +3,10 @@
 
 #include <stdint.h>
 
+#define NUMBER_OF_SYSCALLS 10
+
+typedef void (*syscall_t)(struct registers_t *);
+
 // Represents an entry for the IDT table
 struct idt_entry_t {
    uint16_t offset_low;   // Offset bits 0..15
@@ -21,20 +25,20 @@ struct idt_ptr_t
 
 // Represents a register
 struct registers_t {
-    uint32_t edi;
-    uint32_t esi;
+    uint32_t edi;// 5th arg
+    uint32_t esi;// 4th arg
     uint32_t ebp;
     uint32_t esp;
-    uint32_t ebx;
-    uint32_t edx;
-    uint32_t ecx;
-    uint32_t eax;
+    uint32_t ebx; // 1st arg
+    uint32_t edx; // 3rd arg
+    uint32_t ecx; // 2nd arg
+    uint32_t eax; // Service code
 } __attribute__((packed));
 
-/**
- * @param ptr Represents the table to load
- */
 void init_idt();
+
+void init_syscall_table();
+
 
 /**
  * @param num Interuption number
