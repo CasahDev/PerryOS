@@ -28,7 +28,12 @@ void init_serial() {
     outb(COMM_PORT + 4, 0x0B);
 }
 
+int is_transmit_empty() {
+   return inb(PORT + 5) & 0x20;
+}
+
 void serial_putc(const char c) {
+    while (is_transmit_empty() == 0); // polling
     outb(COMM_PORT, c);
 }
 
